@@ -28,6 +28,8 @@ export default class RecipesController {
     // POST /recipes
     public async store( { request, auth }: HttpContext ) {
         const reqData = request.only(['title', 'ingredients', 'preparation'])
+        const file = request.file('file')
+        console.log(file)
 
         const user = auth.getUserOrFail()
 
@@ -35,7 +37,7 @@ export default class RecipesController {
             title: reqData.title,
             ingredients: reqData.ingredients,
             preparation: reqData.preparation,
-            photo_url: 'teste',
+            photo: file,
             user: user.id,
             createdAt: DateTime.now()
         }
