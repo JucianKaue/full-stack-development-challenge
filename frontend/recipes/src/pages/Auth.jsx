@@ -79,7 +79,6 @@ export const Auth = () => {
         }
     }
 
-
     if (typeForm === 'login') {
         return (
             <>
