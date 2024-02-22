@@ -5,7 +5,7 @@ export const createRecipeValidator = vine.compile(
         title: vine.string().maxLength(50),
         ingredients: vine.string().maxLength(500),
         preparation: vine.string().maxLength(500),
-        photo: vine.file({extnames: ['jpg', 'png']}),
+        photo: vine.file(),
         user: vine.number()
     })
 )

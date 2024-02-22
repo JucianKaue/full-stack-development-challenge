@@ -14,30 +14,31 @@ export const CreateRecipe = () => {
   const [title, setTitle] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [preparation, setPreparation] = useState('')
-  const [file, setFile] = useState<FileList | null | undefined>()
+  const [file, setFile] = useState<FileList | null>(null)
 
-  const [formData, setFormData] = useState<Recipe>()
+  const [filebase64,setFileBase64] = useState<string>("")
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
 
-    if (typeof file === undefined || typeof file === null) return
+    return <img src={filebase64} width={300} />
+    
 
-    const formData = new FormData();
-    formData.append('file', file[0])
 
-    const response = await fetch('http://localhost:3333/recipes', {
-      method: 'POST',
-      headers: {'Authorization': `Bearer ${token}`},
-      body: JSON.stringify({
-        "title": title,
-        "ingredients": ingredients,
-        "preparation": preparation,
-        "file": file[0]
-      })
-    }).catch((e) => {
-      console.log(e)
-    })
+  }
+
+  function convertFile(files: FileList|null) {
+    if (files) {
+      const fileRef = files[0] || ""
+      const fileType: string= fileRef.type || ""
+      console.log("This file upload is of type:",fileType)
+      const reader = new FileReader()
+      reader.readAsBinaryString(fileRef)
+      reader.onload=(ev: any) => {
+        // convert it to base64
+        setFileBase64(`data:${fileType};base64,${btoa(ev.target.result)}`)
+      }
+    }
   }
 
   return (
@@ -47,7 +48,7 @@ export const CreateRecipe = () => {
         <input className="bg-slate-600" type="text" placeholder="Titulo" onChange={(e) => {setTitle(e.target.value)}}/><br />
         <input className="bg-slate-600" type="text" placeholder="Ingredientes" onChange={(e) => {setIngredients(e.target.value)}}/><br />
         <input className="bg-slate-600" type="text" placeholder="Preparação" onChange={(e) => {setPreparation(e.target.value)}}/>
-        <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" onChange={(e) => {setFile(e.target.files[0]); console.log(e.target.files)}}></input>
+        <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" onChange={(e) => {convertFile(e.target.files)}}></input>
         <button type="submit">Enviar</button>
       </form>
     </div>

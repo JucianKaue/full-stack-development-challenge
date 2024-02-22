@@ -1,8 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
-
+import app from '@adonisjs/core/services/app'
 import Recipe from '#models/recipe'
 import { createRecipeValidator, updateRecipeValidator } from '#validators/recipe'
 import { DateTime } from 'luxon'
+import { cuid } from '@adonisjs/core/helpers'
 
 export default class RecipesController {
     // GET /recipes
@@ -28,7 +29,9 @@ export default class RecipesController {
     // POST /recipes
     public async store( { request, auth }: HttpContext ) {
         const reqData = request.only(['title', 'ingredients', 'preparation'])
-        const file = request.file('file')
+        const file = request.file('photo')
+        
+
         console.log(file)
 
         const user = auth.getUserOrFail()
@@ -43,7 +46,18 @@ export default class RecipesController {
         }
 
         const payload = await createRecipeValidator.validate(data)
-        Recipe.create(payload)
+
+        await file?.move(app.makePath('uploads'), {
+            name: `${cuid()}.${file.extname}`
+        })
+        
+        Recipe.create({
+            title: payload.title,
+            ingredients: payload.ingredients,
+            preparation: payload.preparation,
+            photo_url: file?.fileName,
+            user: payload.user
+        })
 
     }
 

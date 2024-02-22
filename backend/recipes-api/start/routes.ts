@@ -12,6 +12,7 @@ import AuthController from '#controllers/auth_controller'
 import RecipesController from '#controllers/recipes_controller'
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+import ImageController from '#controllers/image_controller'
 
 router.get('/', async () => {
   return {
@@ -28,5 +29,8 @@ router.post('/recipes', [RecipesController, 'store']).use(middleware.auth({guard
 router.get('/recipes/:id', [RecipesController, 'show']).use(middleware.auth({guards: ['api']}))
 router.put('/recipes/:id', [RecipesController, 'update']).use(middleware.auth({guards: ['api']}))
 router.delete('/recipes/:id', [RecipesController, 'destroy']).use(middleware.auth({guards: ['api']}))
+
+router.get('/uploads/*', [ImageController, 'show'])
+
 
 //router.resource('/recipes', RecipesController)
