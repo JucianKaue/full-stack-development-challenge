@@ -9,12 +9,12 @@ export const Auth = () => {
 
     const navigate = useNavigate()
 
-    const [loginEmail, setLoginEmail] = useState()
-    const [loginPassword, setLoginPassword] = useState()
+    const [loginEmail, setLoginEmail] = useState('')
+    const [loginPassword, setLoginPassword] = useState('')
 
-    const [registerName, setRegisterName] = useState()
-    const [registerEmail, setRegisterEmail] = useState()
-    const [registerPassword, setRegisterPassword] = useState()
+    const [registerName, setRegisterName] = useState('')
+    const [registerEmail, setRegisterEmail] = useState('')
+    const [registerPassword, setRegisterPassword] = useState('')
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();

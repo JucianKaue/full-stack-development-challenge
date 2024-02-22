@@ -21,7 +21,7 @@ export default function App() {
         <Route path='/recipeEdit/:id' element={<RecipesForm typeForm='edit'/>} />
 
 
-        {/* <Route path="*" element={<Navigate to="/recipes" />}/> */}
+        <Route path="*" element={<Navigate to="/recipes" />}/>
       </Routes>
     </BrowserRouter>
     </>
