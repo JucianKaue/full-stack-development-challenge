@@ -48,7 +48,7 @@ export const RecipesDetails = () => {
 
   useEffect(() => {
     getRecipe()
-  }, [])
+  })
 
   return (
     <>

@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+/* eslint-disable react/prop-types */
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { Trash } from '@phosphor-icons/react'
+
 
 export const RecipesForm = (props) => {
   let { id } = useParams()
   let { typeForm } = props
 
   const { user } = useContext(UserContext)
-  console.log(user.token)
 
   const [title, setTitle] = useState('')
   const [file, setFile] = useState()
@@ -56,24 +57,27 @@ export const RecipesForm = (props) => {
       request.withCredentials = true
       request.setRequestHeader('Authorization', `Bearer ${user.token}`)
       let response = request.send(data)
+      console.log(response)
 
-      if (response) {
-        if (response.status != 201) {
-          const data = await response.json()
-          console.log(  data)
-          alert(data.errors[0].message)
-        } else {
-          setTitle('')
-          setStep('')
-          setIngredient('')
-          setIngredients([])
-          setPreparation([])
-          setFile()
-          alert('Receita criada com sucesso')
-        }
-      }
+
+
+      // if (response) {
+      //   if (response.status != 201) {
+      //     const data = await response.json()
+      //     console.log(data)
+      //     alert(data.errors[0].message)
+      //   } else {
+      //     setTitle('')
+      //     setStep('')
+      //     setIngredient('')
+      //     setIngredients([])
+      //     setPreparation([])
+      //     setFile()
+      //     alert('Receita criada com sucesso')
+      //   }
+      // }
     } else if (typeForm == 'edit') {
-
+      // Create the code form edit recipe
     }
   }
 
@@ -89,25 +93,37 @@ export const RecipesForm = (props) => {
     setStep('')
   }
 
+  const deleteIngredient = (index) => {
+    setIngredients((ingredients) => {
+      return ingredients.filter((item, currentIndex) => currentIndex !== index)
+    })
+  }
+
+  const deleteStep = (index) => {
+    setPreparation((preparation) => {
+      return preparation.filter((item, currentIndex) => currentIndex !== index)
+    })
+  }
+
   function ListIngredients() {
     const listItems = ingredients.map((item, index) => {
-      return <li className='flex flex-row justify-between' key={index}>{item}<Trash className='bg-red-400 ml-2 mt-1 hover:bg-red-600 cursor-pointer' onClick={(e) => {ingredients.splice(index, 1)}} size={20} /></li>
+      return <li className='flex flex-row justify-between' key={index}>{item}<Trash className='bg-red-400 ml-2 mt-1 hover:bg-red-600 cursor-pointer' onClick={() => {deleteIngredient(index)}} size={20} /></li>
     })
     return <ul>{listItems}</ul>
   }
 
   function ListPreparation() {
     const listItems = preparation.map((item, index) => {
-      return <li className='flex flex-row justify-between' key={index}>{item}<Trash className='bg-red-400 ml-2 mt-1 hover:bg-red-600 cursor-pointer' onClick={(e) => {preparation.splice(index, 1)}} size={20} /></li>
+      return <li className='flex flex-row justify-between' key={index}>{item}<Trash className='bg-red-400 ml-2 mt-1 hover:bg-red-600 cursor-pointer' onClick={() => {deleteStep(index)}} size={20} /></li>
     })
     return <ul>{listItems}</ul>
   }
 
-  if (typeForm == 'edit') {
-    useEffect(() => {
+  useEffect(() => {
+    if (typeForm == 'edit') {
       loadRecipe()
-    }, [])
-  }
+    }
+  }, [])
 
   return (
     <>

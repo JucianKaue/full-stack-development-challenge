@@ -6,16 +6,16 @@ export default class Recipe extends BaseModel {
   declare id: number
 
   @column()
-  declare title: String
+  declare title: string
 
   @column()
-  declare ingredients: String
+  declare ingredients: string
 
   @column()
-  declare preparation: String
+  declare preparation: string
 
   @column()
-  declare photo_url: String
+  declare photo_url: string
 
   @column()
   declare user: number

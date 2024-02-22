@@ -17,7 +17,7 @@ export default function App() {
         
         <Route path='/recipes' element={<Recipes />} />
         <Route path='/recipes/:id' element={<RecipesDetails />} />
-        <Route path='/recipesCreate' element={<RecipesForm typeForm='create'/>} /> {/*It's possible to know that from the existance of "id" or not, but I prefer in this way to be more declarative */}
+        <Route path='/recipescreate' element={<RecipesForm typeForm='create'/>} /> {/*It's possible to know that from the existance of "id" or not, but I prefer in this way to be more declarative */}
         <Route path='/recipeEdit/:id' element={<RecipesForm typeForm='edit'/>} />
 
 

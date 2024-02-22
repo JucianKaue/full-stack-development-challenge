@@ -22,15 +22,24 @@ router.get('/', async () => {
 
 router.post('/users', [AuthController, 'createUser'])
 router.post('/login', [AuthController, 'login'])
-router.get('/logout', [AuthController, 'logout']).use(middleware.auth({guards: ['api']}))
+router
+  .get('/logout', [AuthController, 'logout'])
+  .use(middleware.auth({ guards: ['api'] }))
 
 router.get('/recipes', [RecipesController, 'index'])
-router.post('/recipes', [RecipesController, 'store']).use(middleware.auth({guards: ['api']}))
-router.get('/recipes/:id', [RecipesController, 'show']).use(middleware.auth({guards: ['api']}))
-router.put('/recipes/:id', [RecipesController, 'update']).use(middleware.auth({guards: ['api']}))
-router.delete('/recipes/:id', [RecipesController, 'destroy']).use(middleware.auth({guards: ['api']}))
+router
+  .post('/recipes', [RecipesController, 'store'])
+  .use(middleware.auth({ guards: ['api'] }))
+router
+  .get('/recipes/:id', [RecipesController, 'show'])
+  .use(middleware.auth({ guards: ['api'] }))
+router
+  .put('/recipes/:id', [RecipesController, 'update'])
+  .use(middleware.auth({ guards: ['api'] }))
+router
+  .delete('/recipes/:id', [RecipesController, 'destroy'])
+  .use(middleware.auth({ guards: ['api'] }))
 
 router.get('/uploads/*', [ImageController, 'show'])
 
-
-//router.resource('/recipes', RecipesController)
+// router.resource('/recipes', RecipesController)

@@ -5,7 +5,7 @@ import { UserContext } from '../context/UserContext'
 export const Auth = () => {
     const [typeForm, setTypeForm] = useState('login')
 
-    const { user, setUser } = useContext(UserContext)
+    const { setUser } = useContext(UserContext)
 
     const navigate = useNavigate()
 
